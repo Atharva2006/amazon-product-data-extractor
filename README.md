@@ -13,7 +13,7 @@ Disclaimer
 
 
 Features
-- Scrapes product `title`, `price`, and `ASIN`.
+- Scrapes product `title` and `price`.
 - Paginates through 10 result pages.
 - Cleans and sorts data by price.
 - Exports to Excel using `pandas`.
