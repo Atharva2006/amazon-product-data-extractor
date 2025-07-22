@@ -1,6 +1,5 @@
 from patchright.sync_api import sync_playwright
 import pandas as pd
-import time
 
 data = []
 
@@ -14,12 +13,21 @@ with sync_playwright() as p:
 
 
     page = browser.new_page()
-    page.goto('https://www.amazon.in/s?k=noise+cancellation+ear+bud')
+    url = input("Enter the Amazon search URL: ")
+    if not url.startswith(('https://www.amazon.in/s?k=' , 'https://www.amazon.com/s?k=')):
+        print("Please enter a valid Amazon search URL.")
+        exit(1)
+    page.goto(url)
+
+     
+
+    value = page.locator("#twotabsearchtextbox").get_attribute('value')
+    value = value.replace(" ", "_")
     
 
     page_n = 1
 
-    while page_n <= 10:
+    while page_n <= 3:
         print(f"\n Scraping page {page_n}")
 
         product_block = page.locator('div[role="listitem"][data-asin][data-index]')
@@ -38,13 +46,12 @@ with sync_playwright() as p:
                 if not asin_attr or asin_attr.strip() == "":
                     continue
 
-                title = block.locator("h2[aria-label] span").inner_text()
+                title = block.locator("h2[aria-label] span").inner_text(timeout=3000)
                 title = title.split(",")[0]
-                prices = block.locator("span.a-price-whole").inner_text()
+                prices = block.locator("span.a-price-whole").inner_text(timeout=3000)
 
 
                 temp_data.append({
-                    "ASIN": asin_attr,
                     "Title": title,
                     "Price": prices
                 })
@@ -64,19 +71,18 @@ with sync_playwright() as p:
     print("Scraping completed.")
 
     df = pd.DataFrame(data)
-    df = df.drop_duplicates(subset='ASIN')
-    df.to_excel("amazon_data.xlsx", index=False)
+    df.to_excel(f"{value}.xlsx", index=False)
 
-    df = pd.read_excel("amazon_data.xlsx")
+    df = pd.read_excel(f"{value}.xlsx")
     df["Price"] = df["Price"].str.replace(r"[^\d.]", "", regex=True)
     df["Price"] = pd.to_numeric(df["Price"], errors="coerce")
     df = df.dropna(subset=["Price"])
     df = df.drop_duplicates(subset=['Title', 'Price'])
 
     df_sorted = df.sort_values(by="Price", ascending=True)
-    df_sorted.to_excel("amazon_data.xlsx", index=False)
+    df_sorted.to_excel(f"{value}.xlsx", index=False)
 
-    print("Data saved to amazon_data.xlsx")
+    print(f"Data saved to {value}.xlsx")
 
     browser.close()
 
