@@ -22,10 +22,7 @@ with sync_playwright() as p:
     while page_n <= 10:
         print(f"\n Scraping page {page_n}")
 
-       
-
         product_block = page.locator('div[role="listitem"][data-asin][data-index]')
-
 
         items_count = product_block.count()
         print(f" Found {items_count} titles")
@@ -36,8 +33,6 @@ with sync_playwright() as p:
             try:
                 
                 block = product_block.nth(i)
-
-               
 
                 asin_attr = block.get_attribute("data-asin")
                 if not asin_attr or asin_attr.strip() == "":
@@ -59,37 +54,29 @@ with sync_playwright() as p:
 
        
         data.extend(temp_data)
-
-
-        
-
-        
+                
         next_button = page.locator('a.s-pagination-next[role="button"]')
-       
         next_button.click()
         page.wait_for_selector('div[role="listitem"][data-asin][data-index]', timeout=15000)
         
         page_n += 1
-
         
-
-
     print("Scraping completed.")
 
     df = pd.DataFrame(data)
     df = df.drop_duplicates(subset='ASIN')
-    df.to_excel("amazon_data_.xlsx", index=False)
+    df.to_excel("amazon_data.xlsx", index=False)
 
-    df = pd.read_excel("amazon_data_.xlsx")
+    df = pd.read_excel("amazon_data.xlsx")
     df["Price"] = df["Price"].str.replace(r"[^\d.]", "", regex=True)
     df["Price"] = pd.to_numeric(df["Price"], errors="coerce")
     df = df.dropna(subset=["Price"])
     df = df.drop_duplicates(subset=['Title', 'Price'])
 
     df_sorted = df.sort_values(by="Price", ascending=True)
-    df_sorted.to_excel("amazon_data_.xlsx", index=False)
+    df_sorted.to_excel("amazon_data.xlsx", index=False)
 
-    print("Data saved to amazon_data_.xlsx")
+    print("Data saved to amazon_data.xlsx")
 
     browser.close()
 
