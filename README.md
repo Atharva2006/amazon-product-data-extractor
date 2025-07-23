@@ -1,5 +1,5 @@
-                                   Hi 👋, I'm atharva
-                            A passionate webscraping beginner
+Hi 👋, I'm atharva
+ A passionate webscraping beginner
 
 
 I’m currently working on amazon web scraper
