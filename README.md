@@ -22,7 +22,7 @@ How It Works:
 
        Scraping Loop:
 
-       - It scrapes product titles and prices from the first 2 pages of the search results:
+       - It scrapes product titles and prices from the first 2 pages of the search results
        - Locates each product block.
        - Extracts the product title and price.
        - Skips items without proper ASIN or missing data.
