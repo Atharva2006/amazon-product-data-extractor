@@ -1,3 +1,11 @@
+                                   Hi 👋, I'm atharva
+                            A passionate webscraping beginner
+
+
+I’m currently working on amazon web scraper
+I’m currently learning camoufox and js
+How to reach : narkhedeatharva200637@gmail.com
+
 Amazon Product Scraper 
 
 This is a Playwright + Python scraper built to extract product titles, prices, and ASINs from amazon.in and amazon.com.
