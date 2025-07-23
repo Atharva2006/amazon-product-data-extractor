@@ -14,6 +14,7 @@ It uses stealth mode via `patchright` and exports the data to an Excel file, sor
 
 
 How It Works:
+
        Launch Browser:
        - The script uses Playwright to launch a Chromium browser with persistent context (saves login, cookies, etc.).
 
