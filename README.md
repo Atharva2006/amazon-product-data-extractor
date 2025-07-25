@@ -47,7 +47,7 @@ Disclaimer
 
 Features
 - Scrapes product `title` and `price`.
-- Paginates through 10 result pages.
+- Paginates through 10 result pages(can be increased).
 - Cleans and sorts data by price.
 - Exports to Excel using `pandas`.
 
